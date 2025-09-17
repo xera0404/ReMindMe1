@@ -113,13 +113,16 @@
   td:nth-of-type(4)::before { content: "Action"; }
 }
     
-input[type="text"],
 input[type="date"],
 input[type="time"] {
-  display: block;     
-  width: 100% !important;  
-  max-width: 100%;     
-  box-sizing: border-box;
+  width: 100% !important;
+  font-size: 15px;       /* match text fields */
+  padding: 8px;          /* add extra padding so height matches */
+  line-height: normal;   /* reset Safari’s default */
+  -webkit-appearance: none; /* remove iOS special styling */
+  appearance: none;
+  border: 2px solid #ccc; /* make border same */
+  border-radius: 5px;
 }
   </style>
 </head>
@@ -131,9 +134,9 @@ input[type="time"] {
     <label>Description :</label>
     <input type="text" id="description" />
     <label>Date : </label>
-    <input type="date" id="date" />
-    <label>Time :</label>
-    <input type="time" id="time" />
+    <input type="text" id="date" onfocus="this.type='date'" placeholder="Pick a date">
+    <input type="text" id="time" onfocus="this.type='time'" placeholder="Pick a time">
+
     <button style="width: 100%" onclick="scheduleReminder();">SCHEDULE REMINDER</button>
 
     <table>
@@ -220,6 +223,7 @@ input[type="time"] {
   </script>
 </body>
 </html>
+
 
 
 
