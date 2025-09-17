@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STUDYPOP</title>
+  <style>
+    body{
+      font-family: "monospace";
+      background-color: whitesmoke; 
+    }
+    input{
+      font-size: 15px;
+      border-width: 2px;
+      border-radius: 5px;
+
+
+    }
+    .container{
+      max-width: 600px;
+      margin: auto;
+      background-color: #30382a;
+      color: whitesmoke;
+      padding: 1px 20px 20px 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      font-size: 25px
+    }
+
+    .schedtracker{
+      font: Arial;
+      color: #898681;
+      font-size: 40px;
+      
+    }
+    label,
+    input,
+    button{
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    input{
+      width: 100%;
+      margin-top: 5px;
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th,
+    td{
+      padding: 5px;
+      border: 1px solid #30382a;
+      text-align: center;
+    }
+    th{
+      background-color: #898681;
+      color: white;
+    }
+    button{
+      background-color: whitesmoke;
+      color: black;
+      padding: 5px;
+      border-width: 2px;
+      border-radius: 5px;
+    }
+    button:hover{
+      background-color: orange;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="schedtracker" style="text-align: center;">ReMindMe</h2>
+
+    <label>Subject :</label>
+    <input type="text" id="Subject" />
+    <label>Description :</label>
+    <input type="text" id="description" />
+    <label>Date : </label>
+    <input type="date" id="date" />
+    <label>Time :</label>
+    <input type="time" id="time" />
+
+    <button style="width: 100%" onclick="scheduleReminder();">SCHEDULE REMINDER</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Description</th>
+          <th>Date & Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="reminderTableBody"></tbody>
+    </table>
+  </div>
+
+  <audio src="D:\New folder\IPHONE NOTIFICATION SOUND EFFECT (PINGDING).mp3" id="notificationSound"></audio>
+
+  <script type="text/javascript">
+    // Ask user to allow notification access
+    if ("Notification" in window) {
+      Notification.requestPermission().then(function (permission) {
+        if (Notification.permission !== "granted"){
+          alert("Please allow notification access!");
+        }
+      });
+    }
+
+    var timeoutIds = []; // 
+
+    function addReminder(Subject, description, dateTimeString, timeoutId){
+  var tableBody = document.getElementById('reminderTableBody');
+  var row = tableBody.insertRow();
+  var titleCell = row.insertCell(0);
+  var descriptionCell = row.insertCell(1);
+  var dateTimeCell = row.insertCell(2);
+  var actionCell = row.insertCell(3);
+
+  titleCell.innerHTML = Subject; // 
+  descriptionCell.innerHTML = description;
+  dateTimeCell.innerHTML = dateTimeString;
+  actionCell.innerHTML = '<button onclick="deleteReminder(this);">Delete</button>';
+
+  row.dataset.timeoutId = timeoutId;
+}
+
+function scheduleReminder() {
+  var Subject = document.getElementById("Subject").value.trim();
+  var description = document.getElementById("description").value.trim();
+  var date = document.getElementById("date").value;
+  var time = document.getElementById("time").value;
+
+  if (!Subject || !description || !date || !time) {
+    alert("Please fill in all fields!");
+    return;
+  }
+
+  var dateTimeString = date + " " + time;
+  var scheduledTime = new Date(dateTimeString);
+  var currentTime = new Date();
+  var timeDifference = scheduledTime - currentTime;
+
+  if (timeDifference > 0) {
+    var timeoutId = setTimeout(function(){
+      document.getElementById("notificationSound").play();
+      new Notification(Subject, {
+        body: description,
+        requireInteraction: true,
+      });
+    }, timeDifference);
+
+    timeoutIds.push(timeoutId);
+    addReminder(Subject, description, dateTimeString, timeoutId);
+
+  } else {
+    alert("The scheduled time is in the past!");
+  }
+}
+
+function deleteReminder(button){
+  var row = button.closest("tr");
+  var timeoutId = row.dataset.timeoutId;
+
+  clearTimeout(Number(timeoutId)); 
+
+  row.remove();
+}
+  </script>
+</body>

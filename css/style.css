@@ -1,0 +1,65 @@
+<style>
+    body{
+      font-family: "monospace";
+      background-color: whitesmoke; /* fixed */
+    }
+    input{
+      font-size: 15px;
+      border-width: 2px;
+      border-radius: 5px;
+
+
+    }
+    .container{
+      max-width: 600px;
+      margin: auto;
+      background-color: #30382a;
+      color: whitesmoke;
+      padding: 1px 20px 20px 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      font-size: 25px
+    }
+
+    .schedtracker{
+      font: Arial;
+      color: #898681;
+      font-size: 40px;
+      
+    }
+    label,
+    input,
+    button{
+      margin: 10px 0;
+      box-sizing: border-box;
+    }
+    input{
+      width: 100%;
+      margin-top: 5px;
+    }
+    table{
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th,
+    td{
+      padding: 5px;
+      border: 1px solid #30382a;
+      text-align: center;
+    }
+    th{
+      background-color: #898681;
+      color: white;
+    }
+    button{
+      background-color: whitesmoke;
+      color: black;
+      padding: 5px;
+      border-width: 2px;
+      border-radius: 5px;
+    }
+    button:hover{
+      background-color: orange;
+    }
+  </style>
